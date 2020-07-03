@@ -2,11 +2,14 @@
 //  Port
 // ============================
 process.env.PORT = process.env.PORT || 3000;
+console.log(`PORT :${process.env.PORT}`)
 
 // ============================
 //  Enviorment
 // ============================
 process.env.NODE_ENV = process.env.NODE_ENV || 'dev';
+console.log(`ENVIOROMENT :${process.env.NODE_ENV}`)
+
 // ============================
 //  DataBase
 // ============================
@@ -19,3 +22,4 @@ if (process.env.NODE_ENV === 'dev') {
 }
 
 process.env.URL_DB = db_url;
+console.log(`ENVIOROMENT :${db_url}`)
