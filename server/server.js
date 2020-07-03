@@ -11,6 +11,11 @@ const mongoose = require('mongoose');
 //Colors
 const colors = require('colors');
 
+console.log(`=====================TRYING CONNECT TO DB =======================\N
+            ${process.env.URL_DB}\n
+            ==================================================================
+            ==================================================================
+            ==================================================================`.bgWhite.black)
 
 mongoose.connect(process.env.URL_DB, {
         useUnifiedTopology: true,
