@@ -17,3 +17,15 @@ if (process.env.NODE_ENV === 'dev') {
 } else {
     process.env.URL_DB = process.env.MONGO_URI;
 }
+
+// ============================
+//  Expiration Token
+// ============================
+
+process.env.EXPIRATION_TOKEN = 60 * 60 * 24 * 30;
+
+// ============================
+//  Seed
+// ============================
+
+process.env.SEED = process.env.SEED || 'seed';

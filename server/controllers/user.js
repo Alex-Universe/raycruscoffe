@@ -3,7 +3,7 @@ const express = require('express')
 const app = express()
 
 //Bcrypt
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcrypt')
 
 //underscore
 const _ = require('underscore')
@@ -15,9 +15,10 @@ app.use(bodyParser.json())
 
 //Import Model
 const UsuarioDB = require('../models/userDB.js');
+const { verifyToken, verifyRole } = require('../middlewares/authenticator.js');
 
 //GET ALL USERS
-app.get('/userList', function(req, res) {
+app.get('/userList', verifyToken, (req, res) => {
 
     let from = Number(req.query.from || 0);
     let limit = Number(req.query.from || 10);
@@ -27,13 +28,10 @@ app.get('/userList', function(req, res) {
         .limit(limit)
         .exec((err, userList) => {
             if (err) {
-                console.log(`Failed ${err}`)
-
                 return res.status(400).json({
                     status: 'Error',
                     err
                 });
-                console.log(err)
             }
 
             res.json({
@@ -44,28 +42,8 @@ app.get('/userList', function(req, res) {
         })
 });
 
-//GET USER BY MAIL
-app.get('/user', function(req, res) {
 
-    UsuarioDB.find({ email: req.query.email })
-        .exec((err, userList) => {
-            if (err) {
-                console.log(`Failed ${err}`)
-
-                return res.status(400).json({
-                    status: 'Error',
-                    err
-                });
-                console.log(err)
-            }
-
-            res.json({
-                user: userList,
-            });
-        })
-});
-
-//POST (INSERT)
+//POST (CREATE USER)
 app.post('/user', function(req, res) {
 
     let inputData = req.body;
@@ -80,13 +58,10 @@ app.post('/user', function(req, res) {
 
     user.save((err, userSaved) => {
         if (err) {
-            console.log(`Failed ${err}`)
-
             return res.status(400).json({
                 status: 'Error',
                 err
             });
-            console.log(err)
         }
 
         res.json({
@@ -97,15 +72,13 @@ app.post('/user', function(req, res) {
 });
 
 //PUT (UPDATE USER)
-app.put('/user/:id', function(req, res) {
+app.put('/user/:id', verifyToken, function(req, res) {
     let id = req.params.id;
 
     let newData = _.pick(req.body, ['name', 'google', 'nickname']); //Especificar parametros Actualizables
 
     UsuarioDB.findByIdAndUpdate(id, newData, { new: true, runValidators: true }, (err, userUpdated) => {
         if (err) {
-            console.log(`Failed ${err}`)
-
             return res.status(400).json({
                 status: 'Error',
                 err
@@ -129,7 +102,7 @@ app.put('/user/:id', function(req, res) {
 
 
 //PUT (DISABLE USER)
-app.put('/userState/:id', function(req, res) {
+app.put('/userState/:id', verifyToken, function(req, res) {
     req.body.state = false;
 
     let newData = _.pick(req.body, ['state']); //Especificar parametros Actualizables
@@ -159,7 +132,7 @@ app.put('/userState/:id', function(req, res) {
 
 
 //DELETE
-app.delete('/user/:id', function(req, res) {
+app.delete('/user/:id', [verifyToken, verifyRole], function(req, res) {
     let id = req.params.id;
 
     UsuarioDB.findByIdAndRemove(id, (err, userDeleted) => {
