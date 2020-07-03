@@ -16,16 +16,9 @@ mongoose.connect(process.env.URL_DB, {
         useCreateIndex: true,
         useNewUrlParser: true
     })
-    .then(res => console.log('Connected to RaycrusCoffeDB'.green))
-    .catch(err => {
-        console.log(colors.red("Couln't Connect to DB \n", err))
+    .then(res => console.log(`Connected to RaycrusCoffeDB ${process.env.NODE_ENV}`.green))
+    .catch(err => console.log(colors.red("Couln't Connect to DB \n", err)))
 
-        console.log(`=====================TRYING CONNECT TO DB =======================\N
-                    ======================${process.env.URL_DB}\n
-                    ==================================================================
-                    ==================================================================
-                    ==================================================================`.bgWhite.black)
-    });
 
 app.listen(process.env.PORT, () => {
     console.log(`Listenning Port: ${process.env.PORT} Timestamp:  ${ new Date()}`.green);
