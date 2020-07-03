@@ -1,16 +1,24 @@
 {
-  "name": "raycruscoffe",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "start": "node server/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Raycrus",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.18.2",
-    "express": "^4.16.2"
-  },
-  "description": ""
+    "name": "raycruscoffe",
+    "version": "1.0.0",
+    "main": "index.js",
+    "engines": {
+        "node": "12.18.0"
+    },
+    "scripts": {
+        "start": "node server/server.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Raycrus",
+    "license": "ISC",
+    "dependencies": {
+        "bcrypt": "^5.0.0",
+        "body-parser": "^1.19.0",
+        "colors": "^1.4.0",
+        "express": "^4.17.1",
+        "mongoose": "^5.9.21",
+        "mongoose-unique-validator": "^2.0.3",
+        "underscore": "^1.10.2"
+    },
+    "description": ""
 }

@@ -1,53 +1,25 @@
 require('./config/config');
 
+//express
 const express = require('express');
 const app = express();
+app.use(require('./controllers/user.js'))
 
-const bodyParser = require('body-parser');
+//mongoose
+const mongoose = require('mongoose');
 
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }))
-
-// parse application/json
-app.use(bodyParser.json())
+//Colors
+const colors = require('colors');
 
 
-app.get('/usuario', function(req, res) {
-    res.json('get Usuario LOCAL!!!');
-});
-
-app.post('/usuario', function(req, res) {
-
-    let body = req.body;
-
-    if (body.nombre === undefined) {
-
-        res.status(400).json({
-            ok: false,
-            mensaje: 'El nombre es necesario'
-        });
-
-    } else {
-        res.json({
-            persona: body
-        });
-    }
-
-});
-
-app.put('/usuario/:id', function(req, res) {
-
-    let id = req.params.id;
-
-    res.json({
-        id
-    });
-});
-
-app.delete('/usuario', function(req, res) {
-    res.json('delete Usuario');
-});
+mongoose.connect(process.env.URL_DB, {
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+        useNewUrlParser: true
+    })
+    .then(res => console.log('Connected to RaycrusCoffeDB'.green))
+    .catch(err => console.log(colors.red("Couln't Connect to DB \n", err)));
 
 app.listen(process.env.PORT, () => {
-    console.log('Escuchando puerto: ', process.env.PORT);
+    console.log(`Listenning Port: ${process.env.PORT} Timestamp:  ${ new Date()}`.green);
 });
