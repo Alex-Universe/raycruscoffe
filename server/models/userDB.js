@@ -20,7 +20,7 @@ let userSchema = new Schema({
     nickname: {
         unique: true,
         type: String,
-        required: [true, 'The NickName its required']
+        required: false
     },
     email: {
         index: true,

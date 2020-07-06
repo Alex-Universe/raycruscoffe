@@ -3,6 +3,7 @@ require('./config/config');
 //express
 const express = require('express');
 const app = express();
+const path = require('path')
 
 //controllers
 app.use(require('./controllers/index.js'))
@@ -13,6 +14,9 @@ const mongoose = require('mongoose');
 
 //Colors
 const colors = require('colors');
+
+//Habilite Public
+app.use(express.static(path.resolve(__dirname, '../public')))
 
 //connect to DB
 mongoose.connect(process.env.URL_DB, {
